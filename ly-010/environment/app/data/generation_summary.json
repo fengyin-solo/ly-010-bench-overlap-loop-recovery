@@ -1,0 +1,1 @@
+{"actuator_count":4,"delay_s_max":0.4,"delay_s_median":0.3,"delay_s_min":0.1,"event_count":12,"gain_abs_max":1.08,"gain_abs_median":0.71,"gain_abs_min":0.59,"loop_count":4,"sample_count":320,"sample_period_s":0.1,"tau_s_max":1.22,"tau_s_median":1.06,"tau_s_min":0.84}

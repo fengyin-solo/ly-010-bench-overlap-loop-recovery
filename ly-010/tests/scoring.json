@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "gate_tests": [
+    "test_outputs.py::test_default_recovery_passes_core_gate"
+  ],
+  "weight_policy": {
+    "version": 1,
+    "basis": "business_priority",
+    "core_min_share": 0.5
+  },
+  "tests": {
+    "test_outputs.py::test_default_mapping_matches_true_actuators": {
+      "priority": "core",
+      "weight": 0.040,
+      "rationale": "四路接线全部恢复正确，后续动态参数才具有业务意义。"
+    },
+    "test_outputs.py::test_each_loop_recovers_three_events": {
+      "priority": "core",
+      "weight": 0.040,
+      "rationale": "每路三个稀疏启动事件是共享总指令反演闭合的核心计数证据。"
+    },
+    "test_outputs.py::test_event_count_totals_sparse_starts": {
+      "priority": "core",
+      "weight": 0.040,
+      "rationale": "全批十二个事件必须被四路完整划分，漏切或重复都会破坏恢复。"
+    },
+    "test_outputs.py::test_command_bus_is_the_superposition": {
+      "priority": "core",
+      "weight": 0.040,
+      "rationale": "总指令必须等于四条隐藏阶跃信号之和，这是观测模型的根约束。"
+    },
+    "test_outputs.py::test_transition_tails_overlap_for_each_actuator": {
+      "priority": "core",
+      "weight": 0.040,
+      "rationale": "过渡过程确实重叠，才能排除按单段响应签名直接配对的捷径。"
+    },
+    "test_outputs.py::test_no_per_actuator_command_trace_is_exposed": {
+      "priority": "core",
+      "weight": 0.040,
+      "rationale": "单台执行器指令轨迹不可见，恢复必须依赖叠加观测和联合约束。"
+    },
+    "test_outputs.py::test_gain_values_stay_within_two_percent": {
+      "priority": "core",
+      "weight": 0.040,
+      "rationale": "过程增益的方向与幅值决定闭环动作方向，是模型恢复的核心结果。"
+    },
+    "test_outputs.py::test_tau_values_stay_within_six_percent": {
+      "priority": "core",
+      "weight": 0.040,
+      "rationale": "时间常数决定重叠响应的形状，必须由过程波形反演得到。"
+    },
+    "test_outputs.py::test_delay_values_stay_within_four_hundredths": {
+      "priority": "core",
+      "weight": 0.040,
+      "rationale": "纯时延决定事件与响应之间的对应，错误配对会使时序失真。"
+    },
+    "test_outputs.py::test_each_loop_fit_meets_rmse_limit": {
+      "priority": "core",
+      "weight": 0.040,
+      "rationale": "每路拟合误差达标，才能证明恢复参数真的解释共享观测。"
+    },
+    "test_outputs.py::test_recovered_parameters_stay_within_public_ranges": {
+      "priority": "core",
+      "weight": 0.040,
+      "rationale": "三项动态参数都必须落在对应执行器公开范围内，越界模型不能交付。"
+    },
+    "test_outputs.py::test_global_fit_rmse_is_reported": {
+      "priority": "core",
+      "weight": 0.040,
+      "rationale": "全批最大拟合误差必须按业务口径汇总，现场才能判断模型可用性。"
+    },
+    "test_outputs.py::test_event_support_margin_meets_public_threshold": {
+      "priority": "core",
+      "weight": 0.040,
+      "rationale": "事件换到次优回路必须显著恶化支持度，稀疏分组才具备唯一性。"
+    },
+    "test_outputs.py::test_mapping_margin_supports_unique_assignment": {
+      "priority": "core",
+      "weight": 0.040,
+      "rationale": "最佳与次佳全局映射必须拉开差距，避免把模糊可行解当成接线。"
+    },
+    "test_outputs.py::test_exact_mapping_tie_uses_lexicographic_order": {
+      "priority": "core",
+      "weight": 0.040,
+      "rationale": "多个合法配对支持度并列时，必须按公开规范序产生唯一结果。"
+    },
+    "test_outputs.py::test_reordered_arrays_keep_the_same_mapping": {
+      "priority": "core",
+      "weight": 0.040,
+      "rationale": "打乱数组次序后接线不变，证明恢复没有依赖采集柜排列顺序。"
+    },
+    "test_outputs.py::test_full_batch_completes_within_public_limit": {
+      "priority": "core",
+      "weight": 0.040,
+      "rationale": "四路完整批次必须在公开时限内完成，证明求解路径可收敛。"
+    },
+    "test_outputs.py::test_five_loops_with_short_trace_are_refused": {
+      "priority": "boundary",
+      "weight": 0.020,
+      "rationale": "超过公开四路上界时必须在建模前关闭，避免规模失控。"
+    },
+    "test_outputs.py::test_invalid_root_key_set_is_refused": {
+      "priority": "schema",
+      "weight": 0.020,
+      "rationale": "根层缺键、额外键或重复键时必须返回公开输入错误。"
+    },
+    "test_outputs.py::test_sample_length_mismatch_is_refused": {
+      "priority": "schema",
+      "weight": 0.020,
+      "rationale": "波形长度与采样计数不符会使跨回路比较失真，必须整体拒收。"
+    },
+    "test_outputs.py::test_boolean_sample_is_refused": {
+      "priority": "schema",
+      "weight": 0.020,
+      "rationale": "布尔值不能冒充过程数值，否则会被当成零或一参与反演。"
+    },
+    "test_outputs.py::test_non_utf8_session_is_refused": {
+      "priority": "schema",
+      "weight": 0.020,
+      "rationale": "非 UTF-8 输入不能带替换字符进入解析，否则回路标识可能被改写。"
+    },
+    "test_outputs.py::test_impossible_fit_limit_is_refused": {
+      "priority": "boundary",
+      "weight": 0.020,
+      "rationale": "拟合误差超过公开上限时必须停止发布不可信动态参数。"
+    },
+    "test_outputs.py::test_weak_event_support_is_refused": {
+      "priority": "boundary",
+      "weight": 0.020,
+      "rationale": "事件分组支持不足时必须停止，不能把模糊归属写成确定接线。"
+    },
+    "test_outputs.py::test_success_channel_is_exact": {
+      "priority": "supporting",
+      "weight": 0.020,
+      "rationale": "成功回执必须独占一行，调度程序才能稳定识别完整批次。"
+    },
+    "test_outputs.py::test_refusal_stdout_is_empty": {
+      "priority": "schema",
+      "weight": 0.020,
+      "rationale": "拒绝时不能向标准输出混入半成品回执，调度程序才不会误判成功。"
+    },
+    "test_outputs.py::test_refusal_channel_is_exact": {
+      "priority": "schema",
+      "weight": 0.020,
+      "rationale": "拒绝原因必须独占标准错误一行，现场才能区分业务关闭与崩溃。"
+    },
+    "test_outputs.py::test_unsupported_schema_is_refused": {
+      "priority": "schema",
+      "weight": 0.020,
+      "rationale": "未知会话版本必须拒绝，避免把不兼容字段当作当前观测模型。"
+    },
+    "test_outputs.py::test_result_root_keys_are_exact": {
+      "priority": "schema",
+      "weight": 0.020,
+      "rationale": "结果根层精确键集合是下游网关读取恢复文件的稳定接口。"
+    },
+    "test_outputs.py::test_analysis_keys_are_exact": {
+      "priority": "schema",
+      "weight": 0.020,
+      "rationale": "分析块字段固定后，事件支持、映射余量和拟合误差才能被审计。"
+    },
+    "test_outputs.py::test_loop_row_keys_are_exact": {
+      "priority": "schema",
+      "weight": 0.020,
+      "rationale": "每路结果只含恢复字段，避免额外内部量改变下游导入语义。"
+    },
+    "test_outputs.py::test_loop_rows_are_sorted_by_identifier": {
+      "priority": "schema",
+      "weight": 0.020,
+      "rationale": "按回路标识升序输出，跨批次比对才不受输入数组顺序影响。"
+    },
+    "test_outputs.py::test_result_bytes_are_canonical": {
+      "priority": "schema",
+      "weight": 0.020,
+      "rationale": "规范 JSON 字节让结果摘要和跨班次复核保持确定性。"
+    }
+  }
+}
