@@ -12,5 +12,3 @@ RUN mkdir -p /logs/verifier \
     && chmod 0755 /app/loop_recovery.py \
     && chmod 0777 /app/data \
     && chown -R 65534:65534 /app /logs/verifier
-
-USER 65534:65534

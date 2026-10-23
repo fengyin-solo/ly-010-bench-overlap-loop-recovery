@@ -5,6 +5,7 @@ import json
 import math
 import os
 import subprocess
+import sys
 import time
 from pathlib import Path
 
@@ -65,7 +66,7 @@ def invoke(
 ) -> tuple[subprocess.CompletedProcess[str], float]:
     started = time.monotonic()
     completed = subprocess.run(
-        ["python3", TASK_APP, str(session_path), str(result_path)],
+        [sys.executable, TASK_APP, str(session_path), str(result_path)],
         capture_output=True,
         text=True,
         timeout=timeout,
