@@ -188,10 +188,12 @@ def test_event_count_totals_sparse_starts(default_run, tmp_path):
     """case_id: EVENT-02
     题面：「全批共 12 个；四组事件不能重复使用。」
     """
+    print("HARDCODE-BASE INPUT_SCENARIO_DEFAULT")
     _, _, result_path, _ = default_run
     result = read_result(result_path)
     assert sum(row["event_count"] for row in result["loops"]) == 12
     assert result["analysis"]["event_count"] == 12
+    assert result["analysis"]["event_support_margin"] >= 0.0
 
     session = reduced_session(4)
     session["thresholds"]["event_jump_min"] = min(
@@ -421,6 +423,7 @@ def test_reordered_arrays_keep_the_same_mapping(tmp_path):
     """case_id: ORDER-01
     题面：「`actuators` 与 `loops` 都恰好 4 项，标识不重复。」
     """
+    print("HARDCODE-VARIANT INPUT_SCENARIO_REORDERED")
     session = read_session()
     session["loops"].reverse()
     session["actuators"].reverse()
@@ -428,6 +431,7 @@ def test_reordered_arrays_keep_the_same_mapping(tmp_path):
     result = read_result(result_path)
     assert completed.returncode == 0
     assert mapping_of(result) == TRUTH["mapping"]
+    assert result["analysis"]["event_support_margin"] >= 0.0
 
 
 def test_five_loops_with_short_trace_are_refused(tmp_path):
